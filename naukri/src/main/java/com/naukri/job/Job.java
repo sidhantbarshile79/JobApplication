@@ -1,5 +1,6 @@
 package com.naukri.job;
 
+import com.naukri.company.Company;
 import jakarta.persistence.*;
 
 @Entity

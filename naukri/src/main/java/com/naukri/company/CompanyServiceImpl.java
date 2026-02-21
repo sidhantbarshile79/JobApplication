@@ -3,6 +3,7 @@ package com.naukri.company;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CompanyServiceImpl implements CompanyService{
@@ -20,21 +21,35 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Override
     public boolean updateCompany(Company company, Long id) {
+        Optional<Company> companyOptional = companyRepository.findById(id);
+        if (companyOptional.isPresent())
+        {
+            Company companyUpdate = companyOptional.get();
+            companyUpdate.setDescription(companyUpdate.getDescription());
+            companyUpdate.setName(companyUpdate.getName());
+            companyUpdate.setJobs(companyUpdate.getJobs());
+            return true;
+        }
         return false;
     }
 
     @Override
     public void createCompany(Company company) {
-
+        companyRepository.save(company);
     }
 
     @Override
     public boolean deleteCompanyById(Long id) {
+        if (companyRepository.existsById(id))
+        {
+            companyRepository.deleteById(id);
+            return true;
+        }
         return false;
     }
 
     @Override
     public Company getCompanyById(Long id) {
-        return null;
+        return companyRepository.findById(id).orElse(null);
     }
 }
