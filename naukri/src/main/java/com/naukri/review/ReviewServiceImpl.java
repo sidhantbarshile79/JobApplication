@@ -25,25 +25,22 @@ public class ReviewServiceImpl implements ReviewService{
     //get the company object to add review
 
     @Override
-    public boolean addReview (Long companyId, Review review, Long reviewId) {
+    public boolean addReview(Long companyId, Review review) {
         Company company = companyService.getCompanyById(companyId);
-        if (company != null) {
-            review.setCompany(company);
-            reviewRepository.save(review);
-            return true;
-        } else {
-            return false;
+        if (company != null) { review.setCompany(company);
+            reviewRepository.save(review); return true;
         }
+        return false;
     }
 
     @Override
-    public Review getReview(Long companyId, Long reviewId){
-        List<Review> reviews reviewRepository.findByCompanyId(companyId);
+    public Review getReview(Long companyId, Long reviewId) {
+        List<Review> reviews = reviewRepository.findByCompanyId(companyId);
         return reviews.stream()
                 .filter(review -> review.getId().equals(reviewId))
                 .findFirst()
                 .orElse(null);
-        }
+    }
 
     @Override
     public boolean updateReview(Long companyId, Long reviewId, Review updateReview) {
@@ -59,14 +56,15 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public boolean deleteReview (Long companyId, Long reviewId) {
-        if (companyService.getCompanyById(companyId)!= null && reviewRepository.existsById(reviewId)){
-            Review review= reviewRepository.findById(reviewId).orElse (null);
-            Company company= review.getCompany();
+        if (companyService.getCompanyById(companyId) != null && reviewRepository.existsById(reviewId)) {
+            Review review = reviewRepository.findById(reviewId).orElse(null);
+            Company company = review.getCompany();
             company.getReviews().remove(review);
             companyService.updateCompany(company, companyId);
             reviewRepository.deleteById(reviewId);
             return true;
-        }else {
+        } else {
             return false;
         }
+    }
 }
