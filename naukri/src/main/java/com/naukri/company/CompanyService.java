@@ -13,5 +13,5 @@ public interface CompanyService
     boolean deleteCompanyById(Long id);
 
     Company getCompanyById(Long id);
-    //Service
+
 }
