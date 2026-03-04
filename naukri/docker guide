@@ -1,0 +1,4 @@
+
+Create a docker image -
+./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=dcode007/jobappimage
+
